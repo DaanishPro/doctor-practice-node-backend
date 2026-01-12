@@ -9,8 +9,11 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:3000", // Allow only your Next.js app
-    credentials: true
+  origin: [
+    "http://localhost:3000",
+    "https://doctor-practice-next-frontend.vercel.app"
+  ],
+  credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,6 +28,13 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/appointments', require('./routes/appointments'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/admin', adminRoutes);
+
+
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
